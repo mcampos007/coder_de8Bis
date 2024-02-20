@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { validateProduct } from "../utils/validateProduct.js";
-import {getAll, save, findById, findByTitle, deleteById, update} from "../controllers/products.controller.js"
+import {getAll, save, findById, findByTitle, deleteProduct, update} from "../controllers/products.controller.js"
 import __dirname from "../utils.js";
 
 
@@ -21,7 +21,7 @@ router.post('/', validateProduct ,save);
 router.put('/:pid', validateProduct, update);
 
 //Delete Product
-router.delete('/:pid', deleteById);
+router.delete('/:pid', deleteProduct);
 
 /* router.param("word", async (req, res, next, name) => {
     console.log("Buscando título de producto, valor: " + name);

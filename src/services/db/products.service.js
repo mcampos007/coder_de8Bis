@@ -30,7 +30,7 @@ export default class ProductDao {
       let result = await productsModel.create(product);
       return result;      
     } catch (error) {
-      return error;
+       return error;
     }
   };
 
@@ -52,7 +52,7 @@ export default class ProductDao {
     }
   }
 
-  async deleteById(id) {
+  async deleteProduct(id) {
     try {
       const result = await productsModel.findByIdAndDelete(id);
       return result;  

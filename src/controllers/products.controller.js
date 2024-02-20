@@ -20,9 +20,12 @@ export const save = async(req, res) =>{
     try {
         let newProduct = new ProductDTO(req.body);
         let result = await productService.save(newProduct);
+        if (result.code === 11000) {
+            // Violación de restricción única
+            return res.status(409).json({ error: 'Valor duplicado en campo único' });
+          } 
         res.status(201).send(result);    
     }catch (error) {
-        console.error(error);
         res.status(500).send({ error: error, message: "No se pudo guardar el producto." });
     }
 
@@ -64,11 +67,14 @@ export const findById = async(req, res) => {
 
 };
 
-export const deleteById = async(req, res) =>{
+export const deleteProduct = async(req, res) =>{
     try{
         let {pid} = req.params;
-        const result = await productService.delete(pid);
-        res.status(201).send(result); 
+        const result = await productService.deleteProduct(pid);
+        if (!result){
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        return res.status(200).json({ message: 'Producto eliminado correctamente' }); 
     }
     catch (error) {
         console.error(error);

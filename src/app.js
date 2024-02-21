@@ -1,11 +1,8 @@
-//process.env.TZ = 'America/Argentina/Buenos_Aires';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import { logger } from './utils/logger.js';
-import program from "./process.js";
-import {Server} from "socket.io";
 import methodOverride from "method-override";
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import MongoStore from 'connect-mongo';
@@ -16,17 +13,6 @@ import initializePassport from './config/passport.config.js';
 import config from "./config/config.js";
 import MongoSingleton from './config/mongodb-singleton.js';
 import cors from 'cors';
-
-//import moment from "moment-timezone";
-
-// Establecer la zona horaria para Argentina (Buenos Aires)/
-//moment.tz.setDefault('America/Argentina/Buenos_Aires');
-
-// Establecer la zona horaria en UTC (puedes ajustarla según tus necesidades)
-//moment.tz.setDefault('UTC');
-//console.log('Fecha y hora antes de configurar la zona horaria:', new Date());
-
-//console.log('Fecha y hora después de configurar la zona horaria:', new Date());
 
 //Routers a importar
 import viewsRouter from './routes/views.router.js';
@@ -112,6 +98,7 @@ app.set('views', __dirname + '/views')
 app.use('/', viewsRouter)
 app.use("/api/products", productRouter);
 app.use("/api/carts", cartsRouter);
+
 app.use("/api/users",  usersRouter);
 app.use("/api/messages", messageRouter);
 app.use('/api/sessions', sessionRouter);
@@ -144,7 +131,7 @@ connectMongoDB();*/
 
 
 //TODO: MongoSingleton
-const mongoInstance = async () => {
+  const mongoInstance = async () => {
     try {
         await MongoSingleton.getInstance()
     } catch (error) {
@@ -152,6 +139,6 @@ const mongoInstance = async () => {
         process.exit();
     }
 }
-mongoInstance()
+mongoInstance()  
 
 

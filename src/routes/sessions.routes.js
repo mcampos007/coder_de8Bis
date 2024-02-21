@@ -1,5 +1,5 @@
 import { Router } from "express";
-import __dirname from "../utils.js";
+import __dirname, { passportCall } from "../utils.js";
 import usersDao from "../services/db/users.service.js";
 import { createHash, isValidPassword, generateJWToken, authToken } from '../utils.js'
 import {validateUsers} from "../utils/validateUsers.js";
@@ -161,6 +161,13 @@ router.post('/passwordreset', async(req, res) => {
     res.status(200).send(result);
 })
 
-//router.get('/current', )
+//router.get('/current', passport.authenticate('current', { session: false }),  (req,res)=> {
+router.get('/current', passportCall('current'), (req,res)=> {    
+    const currentUser = req.user;
+
+    // Aquí puedes enviar el usuario actual como respuesta
+    console.log(currentUser);
+    res.json({ user: currentUser });
+})
 export default router;  
 

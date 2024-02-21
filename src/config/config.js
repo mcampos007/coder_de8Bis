@@ -1,10 +1,21 @@
 import dotenv from 'dotenv';
-import program from '../process.js';
+import { Command } from 'commander';
+
+const program = new Command();
 
 
 //dotenv.config();
 
 //let environment = "dev";
+
+program
+    .option('-d', 'Varaible para debug', false) //primero va la variable, luego la descripcion y al final puede ir un valor por defecto.
+    .option('-p <port>', 'Puerto del servidor', 9090)
+    .option('--persist <persist>', 'Modo de persistencia', "mongodb")
+    .option('--mode <mode>', 'Modo de trabajo', 'develop')
+
+    .requiredOption('-u <user>', 'Usuario que va a utilizar el aplicativo.', 'No se ha declarado un usuario.');//RequireOption usa un mensaje por defecto si no está presente la opción.
+program.parse(); //Parsea los comandos y valida si son correctos.
 
 const environment = program.opts().mode;
 let filesetting = "";
@@ -42,4 +53,5 @@ export default {
     privatekey:process.env.PRIVATE_KEY,
     adminName: process.env.ADMIN_EMAIL,
     adminPassword: process.env.ADMIN_PASSWORD,
+    persistence: program.opts().persist,
 }

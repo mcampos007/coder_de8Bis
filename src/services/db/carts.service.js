@@ -22,7 +22,6 @@ export default class CartDao {
     } 
 
     delete = async(id) => {
-        console.log(id);
         let result = await cartModel.findByIdAndDelete(id);
         return result;
     }

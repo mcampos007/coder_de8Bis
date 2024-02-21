@@ -34,7 +34,7 @@ const PRIVATE_KEY = config.privatekey;
  * Tercer argumento: Tiempo de expiración del token.
  */
 export const generateJWToken = (user) => {
-    return jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '60s' })
+    return jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '600s' })
 }
 
 
@@ -70,6 +70,7 @@ export const passportCall = (strategy) => {
     return async (req, res, next) => {
         console.log("Entrando a llamar strategy: ");
         console.log(strategy);
+        
         passport.authenticate(strategy, function (err, user, info) {
             if (err) return next(err);
             if (!user) {
@@ -86,6 +87,7 @@ export const passportCall = (strategy) => {
 // para manejo de Auth
 export const authorization = (role) => {
     return async (req, res, next) => {
+        console.log(role);
         if (!req.user) return res.status(401).send("Unauthorized: User not found in JWT")
 
         if (req.user.role !== role) {

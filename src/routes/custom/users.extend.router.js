@@ -36,7 +36,6 @@ export default class UsersExtendRouter extends CustomRouter {
 
         this.post('/login', ["PUBLIC"], async (req, res) => {
             const { email, password } = req.body;
-            
             try {
                 //Validar si es admin
                 const userAdmin = config.adminName;
@@ -55,15 +54,13 @@ export default class UsersExtendRouter extends CustomRouter {
                         }
                 } else {
                     const user = await userService.findByUsername(email);
-                    console.log("Usuario encontrado para login:");
-                    console.log(user);
                     if (!user) {
-                        console.warn("User doesn't exists with username: " + email);
+                        //console.warn("User doesn't exists with username: " + email);
                         return res.status(202).send({ error: "Not found", message: "Usuario no encontrado con username: " + email });
                     }
                 
                     if (!isValidPassword(user, password)) {
-                        console.warn("Invalid credentials for user: " + email);
+                        //console.warn("Invalid credentials for user: " + email);
                         return res.status(401).send({ status: "error", error: "El usuario y la contraseña no coinciden!" });
                     }
                      tokenUser = {
@@ -84,16 +81,11 @@ export default class UsersExtendRouter extends CustomRouter {
                     // httpOnly: false //Si se expone la cookie
                 }
             )
-                console.log(access_token);
-               // res.send({ message: "Login successful!", access_token: access_token, id: user._id });
-               
-              
-                   
-                
+                //console.log(access_token);
                res.send({ message: "Login successful!", access_token: access_token, id: userId });
 
             } catch (error) {
-                console.error(error);
+                //console.error(error);
                 return res.status(500).send({ status: "error", error: "Error interno de la applicacion." });
             }
         })
